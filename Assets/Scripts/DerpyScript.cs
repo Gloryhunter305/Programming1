@@ -17,7 +17,6 @@ public class DerpyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         transform.position += new Vector3(0.01f, 0, 0);
         transform.Rotate(0, 0, 90*Time.deltaTime);
     }
