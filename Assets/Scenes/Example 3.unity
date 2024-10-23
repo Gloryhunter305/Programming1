@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1906214856}
-  enemySpeed: 3
+  enemySpeed: 2.5
   runningMode: 0
   maxStamina: 0.3
   requiredStamina: -1e+21
