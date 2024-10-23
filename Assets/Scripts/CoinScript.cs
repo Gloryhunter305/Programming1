@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Unity.Collections;
 using UnityEngine;
 
 public class CoinScript : MonoBehaviour
@@ -12,6 +13,9 @@ public class CoinScript : MonoBehaviour
     public float scanRadius = 2f;
     public LayerMask layerMask;
     private UnityEngine.Vector2 spawnPosition;
+    private UnityEngine.Vector2 enemySpawnPosition;
+
+    public GameObject enemySprite;
 
     public void Start()
     {
@@ -32,12 +36,15 @@ public class CoinScript : MonoBehaviour
         //Destroy(gameObject);
         float randomX = Random.Range(-10, 10);
         float randomY = Random.Range(-4.5f, 4.5f);
+        
 
         spawnPosition = new UnityEngine.Vector2(randomX,randomY);
 
         if (IsSafeSpace(spawnPosition))
         {
             transform.position = new UnityEngine.Vector2(randomX, randomY);
+            enemyChance();
+            
         }
         else
         {
@@ -47,6 +54,27 @@ public class CoinScript : MonoBehaviour
         
         
         //transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-4.5f,4.5f);
+    }
+
+    public void enemyChance()
+    {
+        float randomChance = Random.Range(0, 6);
+        if (randomChance <= 1.2)
+        {
+            float randomXEnemy = Random.Range(-10, 10);
+            float randomYEnemy = Random.Range(-4.5f, 4.5f);
+            enemySpawnPosition = new UnityEngine.Vector2(randomXEnemy, randomYEnemy);
+
+            if (IsSafeSpace(enemySpawnPosition))
+            {
+                Instantiate(enemySprite, new UnityEngine.Vector2(randomXEnemy,randomYEnemy), UnityEngine.Quaternion.identity);
+            }
+            else
+            {
+                Debug.Log("Enemy Spawn Overlap. Randomizing another position...");
+                enemyChance();
+            }
+        }
     }
 
     private void OnDrawGizmos()
