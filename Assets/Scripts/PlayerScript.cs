@@ -25,11 +25,15 @@ public class PlayerScript : MonoBehaviour
     public bool canDash = true;
 
     [Header("Stamina Component")]
-    public float maxStamina = 50f;
+    public float maxStamina;
     public float currentStamina;
+    public float staminaLossRate;
+    public float staminaGainRate;
+
     public bool noStaminaLeft;
-    //public Image staminaBar; // assign in the Inspector
-    
+    [SerializeField] StaminaBarScript staminaBar;
+
+
     //This is how many points we currently have
     public int Score = 0;
     
@@ -39,7 +43,10 @@ public class PlayerScript : MonoBehaviour
         //During setup we call UpdateScore to make sure our score text looks correct
         UpdateScore();
 
-        //Initialize Stamina to be 100 every run
+        //Call in for other Components
+        staminaBar = GetComponentInChildren<StaminaBarScript>();
+
+        //Initialize Stamina to be maxStamina every run
         currentStamina = maxStamina;
     }
 
@@ -58,6 +65,10 @@ public class PlayerScript : MonoBehaviour
         {
             currentStamina = 0;
         }
+
+        staminaBar.UpdateStaminaBar(currentStamina, maxStamina);
+
+
 
         /*      PLAYER MOVEMENT     */
         //First we make a variable that we'll use to record how we want to move
@@ -90,7 +101,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (currentStamina > 0)
             {
-                ReduceStamina(10f);
+                ReduceStamina(staminaLossRate);
                 RB.velocity = vel * dashSpeed; 
             }
             else
@@ -113,7 +124,7 @@ public class PlayerScript : MonoBehaviour
             if (currentStamina < maxStamina)
             {
                 noStaminaLeft = false;
-                RestoreStamina(2.5f);
+                RestoreStamina(staminaGainRate);
             }
         }
     }
@@ -180,16 +191,11 @@ public class PlayerScript : MonoBehaviour
     public void ReduceStamina(float amount)
     {
         currentStamina -= amount * Time.deltaTime;
-        //UpdateStaminaBar();
+        staminaBar.UpdateStaminaBar(currentStamina, maxStamina);
     }
     public void RestoreStamina(float amount)
     {
         currentStamina += amount * Time.deltaTime;
-        //UpdateStaminaBar();
+        staminaBar.UpdateStaminaBar(currentStamina, maxStamina);
     }
-    // private void UpdateStaminaBar()
-    // {
-    //     float staminaRatio = currentStamina / maxStamina;
-    //     staminaBar.fillAmount = staminaRatio;
-    // }
 }
