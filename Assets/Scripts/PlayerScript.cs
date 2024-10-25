@@ -198,4 +198,10 @@ public class PlayerScript : MonoBehaviour
         currentStamina += amount * Time.deltaTime;
         staminaBar.UpdateStaminaBar(currentStamina, maxStamina);
     }
+
+    public int getScore()
+    {
+        return Score;
+    }
 }
+
