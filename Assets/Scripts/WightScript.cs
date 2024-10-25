@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.PlasticSCM.Editor.WebApi;
+using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +12,10 @@ public class WightScript : MonoBehaviour
 
     public int newEnemyUnlocked;
     private Vector2 playerPos;
+
+    [Header("Random Position")]
+    public int xOffset = 1;
+    public int yOffset = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +31,8 @@ public class WightScript : MonoBehaviour
         {
             //Grabs player's position
             playerPos = player.transform.position;
+
+            //transform.position = new Vector2(0 + xOffset, 0 + yOffset);
 
         }
     }
